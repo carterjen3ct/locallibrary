@@ -10,7 +10,7 @@ def index(request):
     num_instances_available = BookInstance.objects.filter(status__exact='a').count()
     num_authors = Author.objects.count()
 
-    num_genres = Genre.objects.count()
+    num_genres = Genre.objects.filter()
     search_word = 'fiction'
     num_books_with_word = Book.objects.filter(title__icontains=search_word).count()
 
