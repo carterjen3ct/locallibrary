@@ -26,7 +26,7 @@ env.read_env(str(BASE_DIR / ".env"))
 # See https://docs.djangoproject.com/en/6.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-zvva_y-#$=nyzyv@g00b5b_wnu_h#$aa%r7t=uuld0td&ysfze'
+SECRET_KEY = env("SECRET_KEY", default='django-insecure-zvva_y-#$=nyzyv@g00b5b_wnu_h#$aa%r7t=uuld0td&ysfze')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -127,6 +127,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.1/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 
 # Email
@@ -144,7 +145,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("127.0.0.1", 6379)],
+            "hosts": [env("REDIS_URL", default="redis://127.0.0.1:6379")],
         },
     },
 }
