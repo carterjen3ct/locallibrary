@@ -37,6 +37,7 @@ CSRF_TRUSTED_ORIGINS = env.list("CSRF_TRUSTED_ORIGINS", default=[])
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -45,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # new application
     'catalog.apps.CatalogConfig',
+    'chat',
 ]
 
 MIDDLEWARE = [
@@ -81,7 +83,12 @@ WSGI_APPLICATION = 'locallibrary_config.wsgi.application'
 # https://docs.djangoproject.com/en/6.1/ref/settings/#databases
 
 DATABASES = {
-    "default": env.db(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}")
+    "default": {
+        **env.db(default=f"sqlite:///{BASE_DIR / 'db.sqlite3'}"),
+        'TEST': {
+            'NAME': BASE_DIR / 'test_db.sqlite3',
+        },
+    }
 }
 
 
@@ -128,5 +135,16 @@ STATIC_URL = 'static/'
 MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
+    },
+}
+
+# Channels
+ASGI_APPLICATION = "locallibrary_config.asgi.application"
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("127.0.0.1", 6379)],
+        },
     },
 }
