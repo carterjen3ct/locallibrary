@@ -7,7 +7,8 @@
       {% for book in book_list %}
       <li>
         <a href="{{ book.get_absolute_url }}">{{ book.title }}</a>
-        ({% for book_author in book.bookauthor_set.all|dictsort:"author_order" %}{{ book_author.author }}{% if not forloop.last %}; {% endif %}{% endfor %})
+        <!-- main author, else the ordered Prep05 authors -->
+        ({% if book.author %}{{ book.author }}{% else %}{% for book_author in book.bookauthor_set.all|dictsort:"author_order" %}{{ book_author.author }}{% if not forloop.last %}; {% endif %}{% endfor %}{% endif %})
       </li>
       {% endfor %}
     </ul>

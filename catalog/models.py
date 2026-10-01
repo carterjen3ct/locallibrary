@@ -58,6 +58,8 @@ class Book(models.Model):
     """Model representing a book (but not a specific copy of a book)."""
     title = models.CharField(max_length=200)
     authors = models.ManyToManyField('Author', through='BookAuthor', related_name='books')
+    # Single main author (tutorial Part 6 / Prep04 uses book.author and author.book_set)
+    author = models.ForeignKey('Author', on_delete=models.RESTRICT, null=True, blank=True)
 
     language = models.ForeignKey('Language', on_delete=models.SET_NULL, null=True)
     
