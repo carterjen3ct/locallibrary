@@ -14,6 +14,10 @@ def index(request):
     search_word = 'fiction'
     num_books_with_word = Book.objects.filter(title__icontains=search_word).count()
 
+    num_visits = request.session.get('num_visits', 0)
+    num_visits += 1
+    request.session['num_visits'] = num_visits
+
     context = {
         'num_books': num_books,
         'num_instances': num_instances,
@@ -22,6 +26,7 @@ def index(request):
         'num_genres': num_genres,
         'num_books_with_word': num_books_with_word,
         'search_word': search_word,
+        'num_visits': num_visits,
     }
     return render(request, 'index.html', context=context)
 
