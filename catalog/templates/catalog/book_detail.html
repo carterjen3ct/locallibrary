@@ -4,15 +4,9 @@
   <h1>Title: {{ book.title }}</h1>
 
   <p><strong>Author:</strong>
-    {% if book.author %}
-      <!-- main author (ForeignKey), links to the author detail page -->
-      <a href="{{ book.author.get_absolute_url }}">{{ book.author }}</a>
-    {% else %}
-      <!-- fallback: ordered authors from the Prep05 BookAuthor table -->
-      {% for book_author in book.bookauthor_set.all|dictsort:"author_order" %}
-        <a href="{{ book_author.author.get_absolute_url }}">{{ book_author.author }}</a>{% if not forloop.last %};{% endif %}
-      {% endfor %}
-    {% endif %}
+    {% for book_author in book.bookauthor_set.all|dictsort:"author_order" %}
+      <a href="{{ book_author.author.get_absolute_url }}">{{ book_author.author }}</a>{% if not forloop.last %};{% endif %}
+    {% endfor %}
   </p>
   <p><strong>Summary:</strong> {{ book.summary }}</p>
   <p><strong>ISBN:</strong> {{ book.isbn }}</p>
