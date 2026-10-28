@@ -153,6 +153,8 @@ class BookAuthorFormSetMixin:
         return context
 
     def form_valid(self, form):
+        if f'{BookAuthorFormSet.get_default_prefix()}-TOTAL_FORMS' not in self.request.POST:
+            return super().form_valid(form)
         author_formset = BookAuthorFormSet(self.request.POST, instance=form.instance)
         if not author_formset.is_valid():
             return self.form_invalid(form)
